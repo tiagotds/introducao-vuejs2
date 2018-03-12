@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Introdução ao Vue JS</title>
+	<script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+	<div id="app">
+		<titulo v-bind:descricao="meuTitulo"></titulo>
+		<input type="text" v-model="meuTitulo"/>
+
+		<tabela v-bind:titulos="['Nome', 'E-mail', 'Telefone']" v-bind:registros="registros"></tabela>
+
+		<p v-once>{{meuTitulo}}</p>
+		<p v-html="html"></p>
+
+		<p>{{ 23.988475235 | TrataValor }}</p>
+
+		<ul>
+			<li v-for="registro in registros">
+				{{registro.nome}} - {{registro.email}} - {{registro.telefone}} - {{registro.salario | TrataValor}}
+			</li>
+		</ul>
+
+		<p>Total (methods): {{totalValorMetodo() | TrataValor}}</p>
+		<p>Total (computed): {{totalValorComputed | TrataValor}}</p>
+
+		<p>ContaMethods: {{contaMethods}}</p>
+		<p>ContaComputed: {{contaComputed}}</p>
+
+		<p>
+			<input type="text" v-model="nome" placeholder="Nome" />
+		</p>
+		<p>
+			Alterações: {{contaAlteracoes}}
+		</p>
+
+
+	</div>
+
+	<script type="text/javascript">
+		Vue.component("titulo", {
+			props: ["descricao"],
+			template: "<h2>{{descricao}}</h2>"
+		});
+
+		Vue.component("tabela", {
+			props: ["titulos", "registros"],
+			template: '<table style="width: 100%;">'+
+			'<thead>'+
+			'	<tr>'+
+			'		<th v-for="titulo in titulos">{{titulo}}</th>'+
+			'	</tr>'+
+			'</thead>'+
+			'<tbody>'+
+			'	<tr v-for="registro in registros">'+
+			'		<td v-for="item in registro">{{item}}</td>'+
+			'	</tr>'+
+			'</tbody>'+
+		'</table>'
+		});
+
+		var app = new Vue({
+			el: "#app",
+			data: {
+				meuTitulo: "Esse é o título",
+				registros: [
+					{
+						nome: "Tiago Donizete dos Santos",
+						email: "tiago.tds@gmail.com",
+						telefone: "(27)98104-4001",
+						salario: 2376.69
+					},
+					{
+						nome: "Ricardo Oliveira do Nascimento",
+						email: "rico_on@hotmail.com",
+						telefone: '(27)981020020',
+						salario: 1083.67
+					}
+				],
+				html: "<a href='#'>Este é um link</a>",
+				contaMethods: 0,
+				contaComputed: 0,
+				nome: "",
+				contaAlteracoes: 0
+			},
+			filters: {
+				TrataValor: function(valor){
+					return 'R$'+((valor).toFixed(2)).replace('.', ',');
+				}
+			},
+			methods: {
+				totalValorMetodo: function(){
+					//this.contaMethods++;
+					var total = 0.0;
+					for(registro of this.registros){
+						total += registro.salario;
+					}
+					return total;
+				}
+			},
+			computed: {
+				totalValorComputed: function(){
+					this.contaComputed++;
+					var total = 0.0;
+					for(registro of this.registros){
+						total += registro.salario;
+					}
+					return total;
+				}	
+			},
+			watch: {
+				nome: function(valor){
+					this.contaAlteracoes++;
+					this.nome = valor.toUpperCase();
+				}
+			}
+		});
+	</script>
+</body>
+</html>

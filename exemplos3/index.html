@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Introdução ao Vue JS</title>
+	<script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+	<div id="app">
+		<titulo descricao="Formulários"></titulo>
+		
+		<p>Text: {{texto}}</p>
+		<p>
+			<input type="text" v-model="texto"/>
+		</p>
+
+		<p>TextArea: </p>
+		<p style="white-space: pre-line">{{textarea}}</p>
+		<p>
+			<textarea v-model="textarea" rows="8" cols="80"></textarea>
+		</p>
+
+		<p>Checkbox: {{termos}}</p>
+		<p>
+			<input type="checkbox" id="aceitaTermos" v-model="termos"><label for="aceitaTermos">Aceitar os termos</label>
+		</p>
+
+		<p>MultipleCheckbox: {{notificacoes}}</p>
+		<p>
+			<input type="checkbox" id="email" v-model="notificacoes" value="email"><label for="email">Receber e-mail</label>
+			<input type="checkbox" id="sms" v-model="notificacoes" value="sms"><label for="sms">Receber SMS</label>
+			<input type="checkbox" id="telefone" v-model="notificacoes" value="telefone"><label for="telefone">Receber telefonema</label>
+		</p>Radio: {{sexo}}</p>
+		<p>
+			<input type="radio" id="masculino" v-model="sexo" value="masculino"/><label for="masculilno">Masculino</label>
+			<input type="radio" id="feminino" v-model="sexo" value="feminino"/><label for="feminino">Feminino</label>
+		</p>
+
+	</p>Select: {{ano}}</p>
+	<p>
+		<select v-model="ano">
+			<option disabled value="">Escolha o ano</option>
+			<option>2017</option>
+			<option>2018</option>
+			<option>2019</option>
+		</select>
+	</p>
+
+	</p>Multiselect: {{cores}}</p>
+	<p>
+		<select multiple v-model="cores">
+			<option disabled value="">Escolha as cores</option>
+			<option>Azul</option>
+			<option>Verde</option>
+			<option>Vermelho</option>
+		</select>
+	</p>
+
+	</p>Lazy: {{busca}}</p>
+	<p>
+		<input type="text" v-model.lazy="busca">
+	</p>
+
+</p>Number: {{typeof idade}}</p>
+	<p>
+		<input type="number" v-model.number="idade">
+	</p>
+
+	</div>
+
+	<script type="text/javascript">
+		Vue.component("titulo", {
+			props: ["descricao"],
+			template: "<h2>{{descricao}}</h2>"
+		});
+
+		var app = new Vue({
+			el: "#app",
+			data: {
+				texto: "",
+				textarea: "",
+				termos: true,
+				notificacoes: [],
+				sexo: null,
+				ano: 2017,
+				cores: [],
+				busca: "",
+				idade: null
+			}
+		});
+	</script>
+</body>
+</html>
